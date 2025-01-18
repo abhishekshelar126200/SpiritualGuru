@@ -82,8 +82,8 @@ def send_gems():
                     "one_line": ""
                 
             ],
-            "Do's": [List of Do's],
-            "Dont's": [List of Don'ts]
+            "dos": [List of Do's],
+            "donts": [List of Don'ts]
     """
 
     try:
