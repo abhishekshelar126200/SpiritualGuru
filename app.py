@@ -1,63 +1,93 @@
-from astrapy import DataAPIClient
-from langchain_openai import OpenAI  # Correct import statement for OpenAI
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from dotenv import load_dotenv
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
-from flask import Flask, request, jsonify, send_from_directory
-from flask_cors import CORS
+from astrapy import DataAPIClient
 import os
 import json
 import re
-from dotenv import load_dotenv
+
+# Load environment variables
 load_dotenv()
 
+# Initialize Flask app
 app = Flask(__name__)
 CORS(app)
 
-# Initialize the Astra DB client
+# Initialize Astra DB client
 client = DataAPIClient(os.getenv('ASTRADB'))
-db = client.get_database_by_api_endpoint(
-    os.getenv('ENDPOINT')
-)
+db = client.get_database_by_api_endpoint(os.getenv('ENDPOINT'))
+
+# Initialize OpenAI model
+def get_llm():
+    return ChatOpenAI(model="gpt-4o-mini", api_key=os.getenv('OPENAIKEY'))
+
+# Helper function to process AI prompts
+def process_prompt(template, input_data):
+    prompt = PromptTemplate(template=template, input_variables=["horoscope"])
+    llm = get_llm()
+    chain = prompt | llm
+    response = chain.invoke(input={"horoscope": input_data})
+    response_content = response.content
+    insights = re.sub(r"```json|```", "", response_content)
+    return json.loads(insights)
 
 @app.route('/insights', methods=['POST'])
-def sendInsights():
-    data=request.get_json()
-    prompt = PromptTemplate(
-        template="""
+def send_insights():
+    data = request.get_json()
+    prompt_template = """
         Generate concise astrological insights in JSON format based on a given horoscope {horoscope}.
         Provide one paragraph for each of the following aspects: career, relationships, personal growth, family, and social connections in the json format
-        
+
             "career": "",
             "relationships": "",
             "personal_growth": "",
             "family": "",
             "social_connections": ""
-         
+
         Each paragraph should be focused, comprehensive, and use astrological references from the horoscope to explain the personality or life aspect. Use clear and precise language, ensuring relevance and brevity. Return the result as a JSON object with keys for each aspect.
         Note: Only generate the insights in specified format, do not include any explanations or additional information.
-        """,
-        input_variables=["horoscope"]
-    )
-
-    # Initialize the OpenAI model
-    llm = ChatOpenAI(model="gpt-4o-mini", api_key=os.getenv('OPENAIKEY'))  # Use the correct model name for OpenAI GPT-4
-    print(os.getenv('OPENAIKEY'))
-    # Chain the prompt and LLM
-    chain = prompt | llm
+    """
 
     try:
-        # Get response from the chain
-        print(data)
-        response = chain.invoke(input={"horoscope": data})
-
-        response_content = response.content  # Extract content of the AI message
-    
-        insights = re.sub(r"```json|```", "", response_content)
-
-        # Return the response as JSON
-        return jsonify({"filterData": json.loads(insights), 'msg': 1})
+        insights = process_prompt(prompt_template, data)
+        return jsonify({"filterData": insights, 'msg': 1})
     except Exception as e:
-        # Return error message in a JSON-friendly format
+        return jsonify({"msg": str(e), "error_type": type(e).__name__}), 500
+
+@app.route('/gems', methods=['POST'])
+def send_gems():
+    data = request.get_json()
+    prompt_template = """
+        Generate puja suggestions based on the following birth details and planetary combinations. The output should be in JSON format, similar to the example provided, including a summary, a list of puja suggestions with their status, priority, title, puja ID, detailed summary, and a one-line explanation. Ensure the data reflects the astrological interpretations for the given inputs.
+        {horoscope}
+        Create the following output
+            "summary": "",
+            "suggestions": [
+                
+                    "status": ,
+                    "priority": ,
+                    "title": "",
+                    "puja_id": "",
+                    "summary": "",
+                    "one_line": ""
+                ,
+                
+                    "status": ,
+                    "priority": ,
+                    "title": "",
+                    "puja_id": "",
+                    "summary": "",
+                    "one_line": ""
+                
+            ]
+    """
+
+    try:
+        suggestions = process_prompt(prompt_template, data)
+        return jsonify({"filterData": suggestions, 'msg': 1})
+    except Exception as e:
         return jsonify({"msg": str(e), "error_type": type(e).__name__}), 500
 
 
