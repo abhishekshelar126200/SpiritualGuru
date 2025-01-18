@@ -51,7 +51,7 @@ def sendInsights():
         response = chain.invoke(input={"horoscope": data})
 
         response_content = response.content  # Extract content of the AI message
-        print(response_content)
+    
         insights = re.sub(r"```json|```", "", response_content)
 
         # Return the response as JSON
