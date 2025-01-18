@@ -92,6 +92,40 @@ def send_gems():
     except Exception as e:
         return jsonify({"msg": str(e), "error_type": type(e).__name__}), 500
 
+@app.route('/spiritualContent', methods=['POST'])
+def send_content():
+    data = request.get_json()
+    prompt_template = """
+        Create JSON data based on horoscope {horoscope} that includes meditation sessions, workout routines, and sleep content. Each category should have the following details:
+
+        "Meditation":
+            "title": <A descriptive name for the meditation session>,
+            "description": <A brief overview of what the meditation entails>,
+            "duration": <The length of the meditation, e.g., "15 minutes">,
+            "goalAlignment": <The intended benefit of the session, e.g., "mindfulness">
+        ,
+        "Workouts":
+            "title": <A descriptive name for the workout>,
+            "description": <A brief overview of the workout's focus>,
+            "duration": <The length of the workout, e.g., "30 minutes>,
+            "intensityLevel": <The level of difficulty, e.g., "low", "moderate", or "high">
+        ,
+        "Sleep Content":
+            "title": <A descriptive name for the sleep content>,
+            "description": <A brief overview of the sleep content's purpose>,
+            "audioFile": <A URL to the associated audio file>,
+            "duration": <The length of the sleep content, e.g., "45 minutes">,
+            "focus": <The specific area it targets, e.g., "insomnia" or "deep sleep">
+        Note: Do not include any additional information or explanations in the output. Only provide the data in the JSON format.
+    """
+
+    try:
+        suggestions = process_prompt(prompt_template, data)
+        print(suggestions)
+        return jsonify({"filterData": suggestions, 'msg': 1})
+    except Exception as e:
+        return jsonify({"msg": str(e), "error_type": type(e).__name__}), 500
+
 
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=5000)
