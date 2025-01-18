@@ -21,7 +21,7 @@ db = client.get_database_by_api_endpoint(
 
 @app.route('/insights', methods=['POST'])
 def sendInsights():
-    data=request.form['data']
+    data=request.get_json()
     prompt = PromptTemplate(
         template="""
         Generate concise astrological insights in JSON format based on a given horoscope {horoscope}.
