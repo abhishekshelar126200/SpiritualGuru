@@ -19,29 +19,9 @@ db = client.get_database_by_api_endpoint(
     os.getenv('ENDPOINT')
 )
 
-data = {
-    "ascendant": "Leo",
-    "Varna": "Vaishya",
-    "Vashya": "Maanav",
-    "Yoni": "Gau",
-    "Gan": "Manushya",
-    "Nadi": "Adi",
-    "SignLord": "Mercury",
-    "sign": "Virgo",
-    "Naksahtra": "Uttra Phalguni",
-    "NaksahtraLord": "Sun",
-    "Charan": 3,
-    "Yog": "Vaidhriti",
-    "Karan": "Kaulav",
-    "Tithi": "Krishna Dwadashi",
-    "yunja": "Madhya",
-    "tatva": "Earth",
-    "name_alphabet": "Pa",
-    "paya": "Silver"
-}
-
-@app.route('/insights', methods=['GET', 'POST'])
+@app.route('/insights', methods=['POST'])
 def sendInsights():
+    data=request.get_json()
     prompt = PromptTemplate(
         template="""
         Generate concise astrological insights in JSON format based on a given horoscope {horoscope}.
@@ -82,4 +62,4 @@ def sendInsights():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+  app.run(host="0.0.0.0", port=5000)
