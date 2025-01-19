@@ -63,7 +63,7 @@ const Details = () => {
         setChatBotData(null)
         try {
           const response = await axios.post(
-            "https://spiritualguru.onrender.com/chatbot",
+            "https://spiritualguru-1.onrender.com/chatbot",
             {context:context,query:query},
             {
               headers: {
