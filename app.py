@@ -73,23 +73,23 @@ def send_gems():
         Generate puja suggestions based on the following birth details and planetary combinations. The output should be in JSON format, similar to the example provided, including a summary, a list of puja suggestions with their status, priority, title, puja ID, detailed summary, and a one-line explanation. Ensure the data reflects the astrological interpretations for the given inputs.
         {horoscope}
         Create the following output
-            "summary": "",
+            "summary": <In one line>,
             "suggestions": [
                 
-                    "status": ,
-                    "priority": ,
-                    "title": "",
-                    "puja_id": "",
-                    "summary": "",
-                    "one_line": ""
+                    "status": <In one line>,
+                    "priority": <In one line>,
+                    "title": <In one line>,
+                    "puja_id": <In one line>,
+                    "summary": <In one line>,
+                    "one_line": <In one line>
                 ,
                 
-                    "status": ,
-                    "priority": ,
-                    "title": "",
-                    "puja_id": "",
-                    "summary": "",
-                    "one_line": ""
+                    "status": <In one line>,
+                    "priority": <In one line>,
+                    "title": <In one line>,
+                    "puja_id": <In one line>,
+                    "summary": <In one line>,
+                    "one_line": <In one line>
                 
             ],
             "dos": [List of Do's],
