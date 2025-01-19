@@ -32,6 +32,16 @@ def process_prompt(template, input_data):
     response_content = response.content
     insights = re.sub(r"```json|```", "", response_content)
     return json.loads(insights)
+def process_query(template, data):
+    prompt = PromptTemplate(template=template, input_variables=["data"])
+    llm = get_llm()
+    chain = prompt | llm
+    response = chain.invoke(input={"data": data})
+    print(response)
+    response_content = response.content
+    print(response.content)
+    insights = re.sub(r"```json|```", "", response_content)
+    return json.loads(insights)
 
 @app.route('/insights', methods=['POST'])
 def send_insights():
@@ -126,6 +136,22 @@ def send_content():
     except Exception as e:
         return jsonify({"msg": str(e), "error_type": type(e).__name__}), 500
 
+@app.route('/chatbot', methods=['POST'])
+def chatbot():
+    data = request.get_json()
+    print(data)
+    prompt_template = """
+        This is context and query in the JSON format <{data}> give the answer in the JSON format to the query in the JSON format.
+        "answer":
+            <response to the user query>
+        Note: Do not include any additional information or explanations in the output. Only provide the data in the JSON format.
+    """
 
+    try:
+        suggestions = process_query(prompt_template, data)
+        print(suggestions)
+        return jsonify({"filterData": suggestions, 'msg': 1})
+    except Exception as e:
+        return jsonify({"msg": str(e), "error_type": type(e).__name__}), 500
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=5000)
