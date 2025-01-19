@@ -143,7 +143,7 @@ def chatbot():
     prompt_template = """
         This is context and query in the JSON format <{data}> give the answer in the JSON format to the query in the JSON format.
         "answer":
-            <response to the user query>
+            <response to the user query in one paragraph>
         Note: Do not include any additional information or explanations in the output. Only provide the data in the JSON format.
     """
 
