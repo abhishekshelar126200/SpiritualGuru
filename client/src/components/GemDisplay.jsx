@@ -138,7 +138,7 @@ const GemDisplay = ({ data }) => {
     const fetchData = async () => {
       try {
         
-        const response = await fetch("https://spiritualguru.onrender.com/gems", {
+        const response = await fetch("https://spiritualguru-1.onrender.com/gems", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
