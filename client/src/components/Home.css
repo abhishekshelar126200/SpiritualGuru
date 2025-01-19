@@ -1,0 +1,81 @@
+body {
+    background: linear-gradient(135deg, #1a0033 0%, #4a0080 100%);
+    min-height: 100vh;
+    /* display: flex; */
+    align-items: center;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  .astrology-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  .site-title {
+    color: #fff;
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 2px;
+  }
+
+  .site-subtitle {
+    color: #e0c3ff;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+
+  .form-label {
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .form-control {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    padding: 0.8rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #9f6eff;
+    box-shadow: 0 0 0 0.25rem rgba(159, 110, 255, 0.25);
+    color: #fff;
+  }
+
+  .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .submit-btn {
+    background: linear-gradient(45deg, #9f6eff, #6e41c0);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    padding: 0.8rem 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+  }
+
+  .submit-btn:hover {
+    background: linear-gradient(45deg, #8a50ff, #5c2db0);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(159, 110, 255, 0.4);
+  }
+
+  .cosmic-icon {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+    color: #9f6eff;
+  }
+
