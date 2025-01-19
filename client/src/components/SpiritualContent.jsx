@@ -11,7 +11,7 @@ const SpiritualContent = ({data}) => {
     const fetchData = async () => {
       try {
         
-        const response = await fetch("https://spiritualguru.onrender.com/spiritualContent", {
+        const response = await fetch("https://spiritualguru-1.onrender.com/spiritualContent", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
