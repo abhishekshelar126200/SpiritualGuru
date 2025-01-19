@@ -1,0 +1,7 @@
+astrapy
+flask
+flask-cors
+python-dotenv
+langchain-openai
+langchain
+openai
